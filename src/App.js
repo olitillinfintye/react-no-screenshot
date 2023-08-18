@@ -1,29 +1,29 @@
-import './App.css';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
-function App() {
+const App = () => {
+  useEffect(() => {
+    const handleScreenshotAttempt = () => {
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        axios.get('/api/block-screenshot');
+      });
+    };
+
+    handleScreenshotAttempt();
+
+    return () => {
+      navigator.mediaSession.setActionHandler('previoustrack', null);
+    };
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+      <h1>Website with Screenshot Blocking</h1>
+      <p>
+        This website uses the Encrypted Media Extensions (EME) API to prevent screenshots from being taken on compatible devices.
+      </p>
     </div>
   );
-}
+};
 
 export default App;
